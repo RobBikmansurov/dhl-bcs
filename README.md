@@ -171,7 +171,7 @@ export_document = {
       description: 'content1',
       country_code_origing: 'CN',
       customs_tariff_number: '1234567',
-      ammount: 1,
+      amount: 1,
       net_weight_in_kg: 0.2,
       customs_value: 25.00
     },
@@ -179,7 +179,7 @@ export_document = {
       description: 'content2',
       country_code_origing: 'DE',
       customs_tariff_number: '00222011',
-      ammount: 1,
+      amount: 1,
       net_weight_in_kg: 1.2,
       customs_value: 112.00
     }

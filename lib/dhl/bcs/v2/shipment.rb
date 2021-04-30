@@ -57,7 +57,7 @@ module Dhl::Bcs::V2
       raise Dhl::Bcs::Error, 'Sender address must be set!' unless shipper
       raise Dhl::Bcs::Error, 'Receiver address must be set!' unless receiver
       raise Dhl::Bcs::Error, 'Product must be set!' unless product
-      raise Dhl::Bcs::Error, 'In order to do an international shipment --product:V53WPAK--, :export_document muse be set!' unless !((product == 'V53WPAK') ^ export_document  )
+      raise Dhl::Bcs::Error, 'In order to do an international shipment --product:V53WPAK--, :export_document must be set!' if (product == 'V53WPAK') ^ export_document
 
       account_number = "#{ekp}#{PRODUCT_PROCEDURE_NUMBERS[product]}#{participation_number}"
       raise Dhl::Bcs::Error, 'Need a 14 character long account number. Check EKP and participation_number' if account_number.size != 14
@@ -84,7 +84,7 @@ module Dhl::Bcs::V2
         # Receiver information
         'Receiver' => receiver.to_soap_hash
       }.tap{|h|
-          #ExportDocuemnt information
+          #ExportDocument information
         h['ExportDocument'] = export_document.to_soap_hash if export_document
       }
     end
