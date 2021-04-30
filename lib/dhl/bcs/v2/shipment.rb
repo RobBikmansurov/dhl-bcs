@@ -3,7 +3,7 @@ module Dhl::Bcs::V2
 
     attr_accessor :shipper, :receiver, :bank_data, :shipment_date,
                   :customer_reference, :services, :weight, :length, :height, :width,
-                  :notification_email, :export_document
+                  :notification_email, :export_document, :return_shipment_reference
     attr_reader :product
 
     PRODUCT_PROCEDURE_NUMBERS = {
@@ -67,6 +67,7 @@ module Dhl::Bcs::V2
           h['shipmentDate'] = shipment_date.strftime("%Y-%m-%d")
           h['cis:accountNumber'] = account_number
           h['customerReference'] = customer_reference if !customer_reference.blank?
+          h['return_shipment_reference'] = return_shipment_reference if !return_shipment_reference.blank?
 
           # just one ShipmentItem possible
           h['ShipmentItem'] = { 'weightInKG' => weight }.tap { |si|

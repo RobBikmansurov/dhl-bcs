@@ -2,9 +2,9 @@ require 'test_helper'
 
 module Dhl::Bcs::V2
   class BusinessCustomerShippingTest < Minitest::Test
-
     def setup
-      config = { user: '2222222222_01', signature: 'pass', ekp: '2222222222', participation_number: '01', api_user: 'test', api_pwd: 'test' }
+      config = { user: '2222222222_01', signature: 'pass', ekp: '2222222222', participation_number: '01',
+                 api_user: 'test', api_pwd: 'test' }
       options = { test: true, log: false }
       @client = Dhl::Bcs.client(config, options)
     end
@@ -54,7 +54,8 @@ module Dhl::Bcs::V2
                 'Der eingegebene Wert ist zu lang und wurde gekürzt.'
               ]
             }
-          ], result)
+          ], result
+        )
       end
 
       shipment2 = valid_shipment
@@ -77,7 +78,8 @@ module Dhl::Bcs::V2
               status_text: 'ok',
               status_message: 'Der Webservice wurde ohne Fehler ausgeführt.'
             }
-          ], result)
+          ], result
+        )
       end
     end
 
@@ -141,19 +143,20 @@ module Dhl::Bcs::V2
       stub_and_check(file_prefix: 'create_shipment_codeable_error') do
         result = @client.create_shipment_order(invalid_shipment, print_only_if_codeable: true)
         assert_equal(
-            [
-              {
-                :status=> {
-                  status_code: '1101',
-                  status_text: 'Hard validation error occured.',
-                  status_message: [
-                    'In der Sendung trat mindestens ein harter Fehler auf.',
-                    'Die Postleitzahl konnte nicht gefunden werden.',
-                    'Der eingegebene Wert ist zu lang und wurde gekürzt.'
-                  ]
-                }
+          [
+            {
+              :status => {
+                status_code: '1101',
+                status_text: 'Hard validation error occured.',
+                status_message: [
+                  'In der Sendung trat mindestens ein harter Fehler auf.',
+                  'Die Postleitzahl konnte nicht gefunden werden.',
+                  'Der eingegebene Wert ist zu lang und wurde gekürzt.'
+                ]
               }
-            ], result)
+            }
+          ], result
+        )
       end
     end
 
@@ -164,58 +167,68 @@ module Dhl::Bcs::V2
         assert_equal(
           [
             {
-              status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+              status: { status_code: '0', status_text: 'ok',
+                        status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
               shipment_number: '22222222201019582121',
               label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDsSX32%2BEB5exp8nNPs%2FhJSQ%3D%3D',
             }
-          ], result)
+          ], result
+        )
       end
     end
 
     def test_create_shipment_order_request
-      #WebMock.allow_net_connect!
+      # WebMock.allow_net_connect!
       stub_and_check(file_prefix: 'create_shipment_order') do
         result = @client.create_shipment_order(valid_shipment)
         assert_equal(
           [
             {
-              status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+              status: { status_code: '0', status_text: 'ok',
+                        status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
               shipment_number: '22222222201019582121',
               label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDsSX32%2BEB5exp8nNPs%2FhJSQ%3D%3D',
             }
-          ], result)
+          ], result
+        )
       end
     end
 
     def test_create_shipment_order_with_service_request
       stub_and_check(file_prefix: 'create_shipment_order_with_service') do
         shipment = valid_shipment
-        shipment.services = [Service.new(name: 'IndividualSenderRequirement', attributes: { active: '1', details: 'Test' })]
+        shipment.services = [Service.new(name: 'IndividualSenderRequirement',
+                                         attributes: { active: '1', details: 'Test' })]
         result = @client.create_shipment_order(shipment)
         assert_equal(
           [
             {
-              status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+              status: { status_code: '0', status_text: 'ok',
+                        status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
               shipment_number: '22222222901010000944',
               label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDzoWAizFLNP5lQPVuv28JYw%3D%3D'
             }
-          ], result)
+          ], result
+        )
       end
     end
 
     def test_create_shipment_order_with_ident_check_service_request
       stub_and_check(file_prefix: 'create_shipment_order_with_ident_check_service') do
         shipment = valid_shipment
-        shipment.services << Dhl::Bcs.build_service(name: 'IdentCheck', attributes: { active: '1' }, children: { 'Ident' => { surname: 'Doe', given_name: 'Jon Doe', date_of_birth: '1980-12-24', minimum_age: '18' } })
+        shipment.services << Dhl::Bcs.build_service(name: 'IdentCheck', attributes: { active: '1' },
+                                                    children: { 'Ident' => { surname: 'Doe', given_name: 'Jon Doe', date_of_birth: '1980-12-24', minimum_age: '18' } })
         result = @client.create_shipment_order(shipment)
         assert_equal(
           [
             {
-              status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+              status: { status_code: '0', status_text: 'ok',
+                        status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
               shipment_number: '22222222901010000944',
               label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDzoWAizFLNP5lQPVuv28JYw%3D%3D'
             }
-          ], result)
+          ], result
+        )
       end
     end
 
@@ -226,12 +239,14 @@ module Dhl::Bcs::V2
         assert_equal(
           [
             {
-              status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+              status: { status_code: '0', status_text: 'ok',
+                        status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
               shipment_number: '22222222201019582121',
               label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDsSX32%2BEB5exp8nNPs%2FhJSQ%3D%3D',
               export_label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=Vfov%2BMinVhMH6nQVfvSCmNUSRNnaQNHKPaiLiWtXsqm%2BENCM6wnStB2C44rl6BEmSxbrPeaTQwBhoHBr802FnuftGVJ9uVM0C0ztLpxNfyc%3D',
             }
-          ], result)
+          ], result
+        )
       end
     end
 
@@ -241,10 +256,11 @@ module Dhl::Bcs::V2
         shipment.shipper.name = 'Hans Peter'
         result = @client.update_shipment_order('22222222901010000944', shipment)
         assert_equal({
-          status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
-          shipment_number: '22222222901010000951',
-          label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDt2F0qWfCk1O81BAd1GiAgw%3D%3D'
-        }, result)
+                       status: { status_code: '0', status_text: 'ok',
+                                 status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+                       shipment_number: '22222222901010000951',
+                       label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDt2F0qWfCk1O81BAd1GiAgw%3D%3D'
+                     }, result)
       end
     end
 
@@ -252,10 +268,10 @@ module Dhl::Bcs::V2
       stub_and_check(file_prefix: 'get_label_not_found') do
         result = @client.get_label('22222222901010000944')
         assert_equal({
-          '22222222901010000944' => {
-            status: { status_code: '2000', status_text: 'Unknown shipment number.', status_message: 'A shipment for print cannot be found' }
-          }
-        }, result)
+                       '22222222901010000944' => {
+                         status: { status_code: '2000', status_text: 'Unknown shipment number.', status_message: 'A shipment for print cannot be found' }
+                       }
+                     }, result)
       end
     end
 
@@ -263,11 +279,12 @@ module Dhl::Bcs::V2
       stub_and_check(file_prefix: 'get_label') do
         result = @client.get_label('22222222901010000951')
         assert_equal({
-          '22222222901010000951' => {
-            status: { status_code: '0', status_text: 'ok', status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
-            label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDt2F0qWfCk1O81BAd1GiAgw%3D%3D'
-          }
-        }, result)
+                       '22222222901010000951' => {
+                         status: { status_code: '0', status_text: 'ok',
+                                   status_message: 'Der Webservice wurde ohne Fehler ausgeführt.' },
+                         label_url: 'https://cig.dhl.de/gkvlabel/SANDBOX/dhl-vls/gw/shpmntws/printShipment?token=JD7HKktuvugIFEkhSvCfbEz4J8Ah0dkcVuw4PzBGRyRnW%2FwEPAwfytLtb31e7gMDt2F0qWfCk1O81BAd1GiAgw%3D%3D'
+                       }
+                     }, result)
       end
     end
 
@@ -275,10 +292,10 @@ module Dhl::Bcs::V2
       stub_and_check(file_prefix: 'delete_shipment_order') do
         result = @client.delete_shipment_order('22222222901010000951')
         assert_equal({
-          '22222222901010000951' => {
-            status: { status_code: '0', status_text: 'ok', status_message: nil }
-          }
-        }, result)
+                       '22222222901010000951' => {
+                         status: { status_code: '0', status_text: 'ok', status_message: nil }
+                       }
+                     }, result)
       end
     end
 
@@ -370,12 +387,11 @@ module Dhl::Bcs::V2
 
       # use Nokogiri to remove all whitespaces between the xml tags
       request_xml =
-        Nokogiri::XML.parse(File.read("test/stubs/#{file_prefix}_request.xml"), &:noblanks).
-        to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML).sub("\n", '').strip
+        Nokogiri::XML.parse(File.read("test/stubs/#{file_prefix}_request.xml"), &:noblanks)
+                     .to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML).sub("\n", '').strip
 
       yield
       assert_requested method, url, body: request_xml
     end
-
   end
 end
