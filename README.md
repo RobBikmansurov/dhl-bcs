@@ -159,7 +159,7 @@ The way to implement that is identical of shipper's and receiver's ones.
 ```ruby
 export_document = {
   invoice_number = 'ABCDEF...',
-  export_type = 'Document',  #  could be one of these ['RETURN_OF_GOODS','PRESENT','COMMERCIAL_SAMPLE','DOCUMENT','OTHER']
+  export_type = 'Document',  #  could be one of these ['RETURN_OF_GOODS','PRESENT','COMMERCIAL_SAMPLE','DOCUMENT','OTHER','COMMERCIAL_SAMPLE']
   export_type_description = 'some desc', # should be set if `export_type` was set to 'OTHER'
   terms_of_trade = 'DDP', # could be one of these ['DDP','DXV','DDU','DDX']
   place_of_commital= 'Bern',
@@ -169,7 +169,7 @@ export_document = {
   export_doc_positions: [
     {
       description: 'content1',
-      country_code_origing: 'CN',
+      country_code_origin: 'CN',
       customs_tariff_number: '1234567',
       amount: 1,
       net_weight_in_kg: 0.2,
@@ -177,7 +177,7 @@ export_document = {
     },
     {
       description: 'content2',
-      country_code_origing: 'DE',
+      country_code_origin: 'DE',
       customs_tariff_number: '00222011',
       amount: 1,
       net_weight_in_kg: 1.2,
