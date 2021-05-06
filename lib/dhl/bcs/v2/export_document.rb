@@ -10,7 +10,7 @@ module Dhl
                         permit_number attestation_number with_electronic_export_notification export_doc_positions].freeze
         attr_accessor(*PROPERTIES)
 
-        EXPORT_TYPES = %w[OTHER PRESENT COMMERCIAL_SAMPLE DOCUMENT RETURN_OF_GOODS COMMERCIAL_SAMPLE].freeze
+        EXPORT_TYPES = %w[OTHER PRESENT COMMERCIAL_SAMPLE DOCUMENT RETURN_OF_GOODS COMMERCIAL_GOODS].freeze
         TERMS_OF_TRADES = %w[DDP DXV DDU DDX].freeze
 
         def self.build(export_doc_positions = [], **attributes)
