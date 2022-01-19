@@ -9,7 +9,7 @@ module Dhl::Bcs::V3
     def self.build(attributes = {})
       # FIXME: company goes where?
       attributes = attributes.dup
-      company = attributes.delete(:company)
+      company = attributes[:company]
       address = Address.build(attributes)
       communication = Communication.build(attributes)
       new(attributes.merge(address: address, communication: communication, company: company))

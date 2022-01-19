@@ -24,10 +24,10 @@ module Dhl::Bcs::V3
     # build a shipment from hash data
     def self.build(attributes = {})
       attributes = attributes.dup
-      shipper = attributes.delete(:shipper)&.then { |attrs| Shipper.build(attrs) }
-      receiver = attributes.delete(:receiver)&.then { |attrs| Receiver.build(attrs) }
-      bank_data = attributes.delete(:bank_data)&.then { |attrs| BankData.build(attrs) }
-      export_document = attributes.delete(:export_document)&.then { |attrs| ExportDocument.build(attrs) }
+      shipper = attributes[:shipper]
+      receiver = attributes[:receiver]
+      bank_data = attributes[:bank_data]
+      export_document = attributes[:export_document]
       new(attributes.merge(shipper: shipper, receiver: receiver, bank_data: bank_data, export_document: export_document))
     end
 
