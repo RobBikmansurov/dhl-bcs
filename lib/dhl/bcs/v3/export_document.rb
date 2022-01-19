@@ -2,7 +2,7 @@
 
 module Dhl
   module Bcs
-    module V2
+    module V3
       class ExportDocument
         include Buildable
 

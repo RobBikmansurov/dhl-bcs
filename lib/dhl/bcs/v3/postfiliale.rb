@@ -1,4 +1,4 @@
-module Dhl::Bcs::V2
+module Dhl::Bcs::V3
   class Postfiliale < Location
 
     ADD_PROPS = %i(postfilial_number post_number).freeze
@@ -7,8 +7,8 @@ module Dhl::Bcs::V2
 
     def to_soap_hash
       h = {}
-      h['postfilialNumber'] = postfilial_number
-      h['postNumber'] = post_number
+      h['cis:postfilialNumber'] = postfilial_number
+      h['cis:postNumber'] = post_number
       h.merge(super)
     end
 

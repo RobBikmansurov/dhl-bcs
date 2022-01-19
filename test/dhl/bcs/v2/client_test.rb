@@ -1,6 +1,6 @@
 require 'test_helper'
 
-module Dhl::Bcs::V2
+module Dhl::Bcs::V3
   class BusinessCustomerShippingTest < Minitest::Test
     def setup
       config = { user: '2222222222_01', signature: 'pass', ekp: '2222222222', participation_number: '01',
